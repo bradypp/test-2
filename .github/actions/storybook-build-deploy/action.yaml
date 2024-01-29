@@ -8,11 +8,18 @@ outputs:
 runs:
   using: composite
   steps:
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 8
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - name: Install dependencies
+      run: pnpm install
     - name: Build storybook
-      shell: bash
-      run: |
-        yarn install
-        npx nx run docs:build-storybook
+      run: nx run docs:build-storybook
     - name: Upload storybook
       uses: actions/upload-pages-artifact@v3
       with:
