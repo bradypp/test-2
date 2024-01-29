@@ -10,18 +10,17 @@ runs:
   steps:
     - uses: pnpm/action-setup@v2
       with:
-        version: 8
+        version: 20
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
-    - name: Install dependencies
-      shell: bash
-      run: pnpm install
     - name: Build storybook
       shell: bash
-      run: nx run docs:build-storybook
+      run: |
+        pnpm install
+        nx run docs:build-storybook
     - name: Upload storybook
       uses: actions/upload-pages-artifact@v3
       with:
