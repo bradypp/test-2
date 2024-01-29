@@ -17,8 +17,10 @@ runs:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
     - name: Install dependencies
+      shell: bash
       run: pnpm install
     - name: Build storybook
+      shell: bash
       run: nx run docs:build-storybook
     - name: Upload storybook
       uses: actions/upload-pages-artifact@v3
