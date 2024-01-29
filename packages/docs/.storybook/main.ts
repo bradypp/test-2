@@ -10,7 +10,6 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-
   viteFinal: async (config) =>
     mergeConfig(config, {
       plugins: [nxViteTsPaths()],
