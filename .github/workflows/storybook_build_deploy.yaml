@@ -28,13 +28,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: pnpm setup
-        uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v2
         with:
           version: 8
           run_install: |
             - recursive: true
-            args: [--frozen-lockfile, --strict-peer-dependencies] 
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+            - args: [--global, gulp, prettier, typescript]
       - name: Build storybook
         shell: bash
         run: nx run docs:build-storybook
