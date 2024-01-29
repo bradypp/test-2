@@ -31,7 +31,7 @@ jobs:
           run_install: true
       - name: Build storybook
         shell: bash
-        run: pnpm storybook:build
+        run: pnpm nx run docs:build-storybook
       - name: Upload storybook artifact
         uses: actions/upload-pages-artifact@v3
         with:
