@@ -20,7 +20,7 @@ runs:
       shell: bash
       run: |
         pnpm install
-        pnpm storybook:build
+        npx nx run docs:build-storybook
     - name: Upload storybook
       uses: actions/upload-pages-artifact@v3
       with:
