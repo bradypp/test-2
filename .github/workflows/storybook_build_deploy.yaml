@@ -1,0 +1,29 @@
+name: Storybook deployment
+
+concurrency:
+  group: github-pages-storybook
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - 'main'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    name: Build & deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages-storybook
+      url: ${{ steps.build-deploy.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - id: build-deploy
+        name: Build & deploy
+        uses: ./.github/actions/storybook-build-deploy
