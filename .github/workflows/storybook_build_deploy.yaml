@@ -18,24 +18,20 @@ jobs:
   deploy:
     name: Build & deploy
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20]
     environment:
       name: github-pages-storybook
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Checkout actions
         uses: actions/checkout@v4
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: pnpm setup
         uses: pnpm/action-setup@v2
         with:
           version: 8
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
       - name: Build storybook
