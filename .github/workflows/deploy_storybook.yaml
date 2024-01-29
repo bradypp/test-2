@@ -28,13 +28,11 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile, --strict-peer-dependencies]
+          run_install: true
       - name: Build storybook
         shell: bash
         run: npx nx run docs:build-storybook
-      - name: Upload storybook
+      - name: Upload storybook artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist/storybook/docs
