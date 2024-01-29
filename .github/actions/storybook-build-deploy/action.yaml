@@ -7,9 +7,6 @@ outputs:
 
 runs:
   using: composite
-  strategy:
-      matrix:
-        node-version: [20]
   steps:
     - uses: pnpm/action-setup@v2
       with:

@@ -18,12 +18,37 @@ jobs:
   deploy:
     name: Build & deploy
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
     environment:
       name: github-pages-storybook
-      url: ${{ steps.build-deploy.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - name: Checkout
+      - name: Checkout actions
         uses: actions/checkout@v4
-      - id: build-deploy
-        name: Build & deploy
-        uses: ./.github/actions/storybook-build-deploy
+      - name: pnpm setup
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build storybook
+        shell: bash
+        run: |
+          pnpm install
+          npx nx run docs:build-storybook
+      - name: Upload storybook
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/storybook/docs
+      - id: deploy
+        name: Deploy storybook to github pages
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ github.token }}
